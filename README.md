@@ -6,10 +6,10 @@ Laravel 12 を使用して構築した **生活雑貨 EC サイト** のポー�
 >追加実装①：2026/01 商品レビュー機能・ランキング機能（閲覧数/販売数/高評価）  
 >追加実装②：2026/04 機能拡張および構成改善（React部分導入 / API連携 / S3 + CloudFront + WebP対応）
   
-本リポジトリは **実稼働版から不要なファイルを除外した公開用バージョン** です。  
 
-## 公開URL : <a href="https://portfolio-sh0212.com/laravel_ecsitev2/" target="_blank">https://portfolio-sh0212.com/laravel_ecsitev2/</a>
-
+公開URL &nbsp;&nbsp;: <a href="https://portfolio-sh0212.com/laravel_ecsitev2/" target="_blank">https://portfolio-sh0212.com/laravel_ecsitev2/</a> &nbsp;&nbsp;&nbsp; ( PC表示を前提として制作しています ) <br>
+🎥 デモ動画（約4分） &nbsp;: <a href="https://youtu.be/xuvf-eTow_I" target="_blank">https://youtu.be/xuvf-eTow_I</a> 
+ 
 <!-- --- -->
 
 ## 🚀 特徴 / 実装機能
