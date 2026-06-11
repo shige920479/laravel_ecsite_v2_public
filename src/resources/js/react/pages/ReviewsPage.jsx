@@ -23,7 +23,8 @@ export default function ReviewPage({itemId}) {
 
   const handleOpen = () => {
     if (! user?.id) {
-      window.location.href = `${BASE_PATH}/login`;
+            const currentUrl = (window.location.pathname + window.location.search).replace(BASE_PATH, '') || '/';
+      window.location.href = `${BASE_PATH}/login?redirect=${encodeURIComponent(currentUrl)}`;
       return;
     }
     setOpenModal(true);

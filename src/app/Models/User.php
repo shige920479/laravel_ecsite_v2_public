@@ -4,8 +4,10 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Helper\Helper;
 use App\Services\Customer\Order\Exceptions\NotRegiteredAccountException;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -27,7 +29,7 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name', 'nickname', 'email', 'password', 'postcode', 'address', 'phone',
+        'name', 'nickname', 'email', 'google_id', 'email_verified_at', 'password',  'postcode', 'address', 'phone',
     ];
 
     /**
@@ -66,6 +68,20 @@ class User extends Authenticatable
             throw new NotRegiteredAccountException();
         }
     }
+
+    /** 検索ワードで名前を検索(複数可) */
+    public function scopeSearchByName(Builder $query, string $searchWord): Builder
+    {
+        $wordList = Helper::trimSearchWord($searchWord);
+
+        $query->where(function ($query) use ($wordList) {
+            foreach ($wordList as $word) {
+                $query->orWhereLike('name', "%{$word}%");
+            }
+        });
+
+        return $query;
+    } 
 
     /** relation */
     public function orders(): HasMany

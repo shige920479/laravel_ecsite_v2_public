@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class CheckoutExpiredNotification extends Notification implements ShouldQueue
+class CheckoutExpiredNotification extends Notification
 {
     use Queueable;
 

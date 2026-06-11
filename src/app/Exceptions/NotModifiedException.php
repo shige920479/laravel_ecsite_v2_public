@@ -1,8 +1,6 @@
 <?php
 
-namespace App\Services\Customer\Review\Exception;
-
-use App\Exceptions\ApiException;
+namespace App\Exceptions;
 
 class NotModifiedException extends ApiException
 {
@@ -10,7 +8,7 @@ class NotModifiedException extends ApiException
     {
         parent::__construct(
             errorCode: 'NOT_MODIFIED',
-            message: '投稿内容に変更がありません、再度入力願います',
+            message: '入力内容に変更がありません、再度入力願います',
             status: 409,
         );
     }

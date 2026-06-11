@@ -19,7 +19,8 @@ export default function ItemShowPage({ item, isFavorite, isLoggedIn }) {
 
   const handleFavoriteClick = async () => {
     if (! isLoggedIn) {
-      window.location.href = `${BASE_PATH}/login`;
+      const currentUrl = (window.location.pathname + window.location.search).replace(BASE_PATH, '') || '/';
+      window.location.href = `${BASE_PATH}/login?redirect=${encodeURIComponent(currentUrl)}`;
       return
     }
     if (isFavoriteloading) return;
@@ -45,7 +46,8 @@ export default function ItemShowPage({ item, isFavorite, isLoggedIn }) {
   const handleCartIn = async () => {
     setErrors({});
     if (! isLoggedIn) {
-      window.location.href = `${BASE_PATH}/login`;
+      const currentUrl = (window.location.pathname + window.location.search).replace(BASE_PATH, '') || '/';
+      window.location.href = `${BASE_PATH}/login?redirect=${encodeURIComponent(currentUrl)}`;
       return;
     }
 

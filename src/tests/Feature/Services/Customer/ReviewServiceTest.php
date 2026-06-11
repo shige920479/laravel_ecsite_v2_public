@@ -2,11 +2,11 @@
 
 namespace Tests\Feature\Services\Customer;
 
+use App\Exceptions\NotModifiedException;
 use App\Models\Item;
 use App\Models\Review;
 use App\Models\Shop;
 use App\Models\User;
-use App\Services\Customer\Review\Exception\NotModifiedException;
 use App\Services\Customer\Review\ReviewService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;

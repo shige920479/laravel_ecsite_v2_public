@@ -35,7 +35,13 @@ class OrderNotificationService implements OrderNotificationServiceInterface
                 $owner->notify(new OrderReceivedForOwnerNotification($result->order, $shipmentResult));
 
             }catch (\Throwable $e) {
-                Log::channel('stripe')->error("オーナー向けメール送信に失敗：shipment_id={$shipmentResult->id}", [$e]);
+                Log::channel('stripe')->error(
+                    'オーナー向けメール送信に失敗', [
+                        'message' => $e->getMessage(),
+                        'shipment_id' => $shipmentResult->shipment->id,
+                        'owner_id' => $owner->id,
+                    ]
+                );
             }
         }
     }

@@ -1,6 +1,8 @@
 <?php
 
 use App\Exceptions\ApiException;
+use App\Exceptions\GoogleAccountMismatchException;
+use App\Exceptions\GoogleAuthenticationException;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Support\AppLog;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -46,6 +48,15 @@ return Application::configure(basePath: dirname(__DIR__))
                         'message' => 'ログインしていません'
                     ], 401)
                     : redirect()->guest($login);
+        });
+
+        // Google認証エラー
+        $exceptions->render(function (GoogleAuthenticationException|GoogleAccountMismatchException $e, $request) {
+
+            return to_route('login')->with([
+                'status' => 'alert',
+                'message' => $e->getMessage()
+            ]);
         });
 
         /** バリデーション例外 API */

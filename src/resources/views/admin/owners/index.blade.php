@@ -28,7 +28,13 @@
                 <td class="td-1">{{ $owner->name }}</td>
                 <td class="td-2">{{ $owner->email }}</td>
                 <td class="td-3">{{ $owner->updated_at }}</td>
-                <td class="td-4"><a href="{{ route('admin.owners.edit', ['owner' => $owner]) }}">編集</a></td>
+                <td class="td-4">
+                  @can('owner.update')
+                    <a href="{{ route('admin.owners.edit', ['owner' => $owner]) }}">編集</a>
+                  @else
+                    <span class="text-xs font-bold text-white bg-gray-300! w-full h-full flex items-center justify-center rounded">権限なし</span>
+                  @endcan
+                </td>
                 <td class="td-5">
                   <form
                     x-data
@@ -38,7 +44,11 @@
                   >
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="del-btn cursor-pointer">削除</button>
+                    @can('owner.delete')
+                      <button type="submit" class="del-btn cursor-pointer">削除</button>
+                    @else
+                      <button type="button" disabled class="text-xs text-white bg-gray-300! pointer-events-none!">権限なし</button>
+                    @endcan
                   </form>
                 </td>
               </tr>

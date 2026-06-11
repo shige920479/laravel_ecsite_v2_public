@@ -1042,6 +1042,7 @@ select {
 /*-------------------------------------------
 オーナー header
 -------------------------------------------*/
+
 #owner-nav-menu {
   display: flex;
   justify-content: space-between;
@@ -1062,6 +1063,15 @@ select {
   text-align: center;
   position: relative;
 }
+
+#owner-nav-menu.admin li a,
+#owner-nav-menu.admin li button {
+  font-size: 0.85rem;
+  padding: 12px 20px;
+  letter-spacing: 5%;
+}
+
+
 #owner-nav-menu li button:hover {
   cursor: pointer;
 }
@@ -1614,6 +1624,39 @@ td.text-center button{
 #sub-categories optgroup {
   color: #7d7c7c;
 }
+/*-------------------------------------------
+管理者 システム管理者編集
+-------------------------------------------*/
+.admin-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 10px 0 5px 5px;
+}
+
+.admin-form-group input {
+  border: 1px solid rgba(128, 128, 128, 0.347);
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.admin-checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding-top: 10px;
+  padding-left: 5px;
+}
+.admin-edit-button {
+  width: 100%;
+  color: #fff;
+  background-color:#84849f;
+  padding: 5px 0;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
 
 /*-------------------------------------------
 Ranking
@@ -1893,3 +1936,116 @@ review　編集　[ modal ]
 .direct-login-btn:hover {
     opacity: 1;
 }
+
+/*-------------------------------------------
+googleでログイン
+-------------------------------------------*/
+.gsi-material-button {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  -webkit-appearance: none;
+  background-color: #7a69ab;
+  background-image: none;
+  border: 1px solid #747775;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  color: #e3e3e3;
+  cursor: pointer;
+  font-family: 'Roboto', arial, sans-serif;
+  font-size: 15px;
+  height: 40px;
+  letter-spacing: 0.25px;
+  outline: none;
+  overflow: hidden;
+  padding: 0 12px;
+  position: relative;
+  text-align: center;
+  -webkit-transition: background-color .218s, border-color .218s, box-shadow .218s;
+  transition: background-color .218s, border-color .218s, box-shadow .218s;
+  vertical-align: middle;
+  white-space: nowrap;
+  width: auto;
+  max-width: 400px;
+  min-width: min-content;
+  border-color: #8e918f;
+}
+
+.gsi-material-button .gsi-material-button-icon {
+  height: 20px;
+  margin-right: 10px;
+  min-width: 20px;
+  width: 20px;
+}
+
+.gsi-material-button .gsi-material-button-content-wrapper {
+  -webkit-align-items: center;
+  align-items: center;
+  display: flex;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+  -webkit-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  height: 100%;
+  justify-content: space-between;
+  position: relative;
+  width: 100%;
+}
+
+.gsi-material-button .gsi-material-button-contents {
+  -webkit-flex-grow: 1;
+  flex-grow: 1;
+  font-family: 'Roboto', arial, sans-serif;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: top;
+}
+
+.gsi-material-button .gsi-material-button-state {
+  -webkit-transition: opacity .218s;
+  transition: opacity .218s;
+  bottom: 0;
+  left: 0;
+  opacity: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.gsi-material-button:disabled {
+  cursor: default;
+  background-color: #13131461;
+  border-color: #8e918f1f;
+}
+
+.gsi-material-button:disabled .gsi-material-button-state {
+  background-color: #e3e3e31f;
+}
+
+.gsi-material-button:disabled .gsi-material-button-contents {
+  opacity: 38%;
+}
+
+.gsi-material-button:disabled .gsi-material-button-icon {
+  opacity: 38%;
+}
+
+.gsi-material-button:not(:disabled):active .gsi-material-button-state, 
+.gsi-material-button:not(:disabled):focus .gsi-material-button-state {
+  background-color: white;
+  opacity: 12%;
+}
+
+.gsi-material-button:not(:disabled):hover {
+  -webkit-box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .30), 0 1px 3px 1px rgba(60, 64, 67, .15);
+  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .30), 0 1px 3px 1px rgba(60, 64, 67, .15);
+}
+
+.gsi-material-button:not(:disabled):hover .gsi-material-button-state {
+  background-color: white;
+  opacity: 8%;
+}
+

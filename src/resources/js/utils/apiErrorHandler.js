@@ -5,36 +5,50 @@ export const handleApiError = (error) => {
 
   switch (error.code) {
 
-    case "UNAUTHENTICATED":
-      window.location.href = `${BASE_PATH}/login`;
+    case "UNAUTHENTICATED": {
+      const currentUrl = 
+        (window.location.pathname + window.location.search)
+          .replace(BASE_PATH, '') || '/';
+
+      window.location.href =
+        `${BASE_PATH}/login?redirect=${encodeURIComponent(currentUrl)}`;
+
       return;
+    }
 
-    case "VALIDATION_ERROR":
+    case "VALIDATION_ERROR": {
       return error.errors ?? error.data?.errors ;
+    }
 
-    case "FORBIDDEN":
+    case "FORBIDDEN": {
       toast.error(error.message);
-      break;
+      return;
+    }
 
-    case "CONFLICT_ERROR":
+    case "CONFLICT_ERROR": {
       toast.error(error.message, {
         icon: "⚠️",
       });
-      break;
+      return;
+    }
 
-    case "BUSINESS_ERROR":
+    case "BUSINESS_ERROR": {
       toast.error(error.message);
-      break;
+      return;
+    }
 
-    case "SERVER_ERROR":
+    case "SERVER_ERROR": {
       toast.error("サーバーエラーが発生しました");
-      break;
+      return;
+    }
 
-    case "NETWORK_ERROR":
+    case "NETWORK_ERROR": {
       toast.error("通信環境をご確認ください");
-    return;
+      return;
+    }
 
-    default:
+    default: {
       toast.error(error.message || "エラーが発生しました");
+    }
   }
 }

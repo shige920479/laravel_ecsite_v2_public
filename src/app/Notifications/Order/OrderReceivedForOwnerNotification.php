@@ -10,7 +10,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Collection;
 
-class OrderReceivedForOwnerNotification extends Notification implements ShouldQueue
+class OrderReceivedForOwnerNotification extends Notification
 {
     use Queueable;
 

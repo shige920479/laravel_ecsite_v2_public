@@ -15,12 +15,15 @@ use App\Http\Controllers\Customer\GuestController;
 use App\Http\Controllers\Customer\MyOrdersController;
 use App\Http\Controllers\Customer\MyReviewController;
 use App\Http\Controllers\Customer\ReviewPageController;
+use App\Models\User;
+use App\Notifications\Auth\GoogleAccountLinkedNotification;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 require __DIR__.'/admin.php';
 require __DIR__.'/owner.php';
+require __DIR__. '/google.php';
 require __DIR__.'/demo.php';
 
 if(! app()->isProduction()) {
@@ -111,8 +114,4 @@ Route::prefix('/api')->group(function () use ($guards) {
         Route::get('/mypage/reviews', [MyReviewApiController::class, 'index']);
 
     });
-
-
 });
-
-

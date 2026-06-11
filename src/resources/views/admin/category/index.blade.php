@@ -15,9 +15,13 @@
               <ul class="item-category-list">
                 @foreach ($sub->itemCategories as $itemCat)
                   <li>
-                    <a href="{{ route('admin.itemCategory.edit', ['itemCategory' => $itemCat]) }}">
-                      {{ $itemCat->name }}
-                    </a>
+                    @can('category.update')
+                      <a href="{{ route('admin.itemCategory.edit', ['itemCategory' => $itemCat]) }}">
+                        {{ $itemCat->name }}
+                      </a>
+                    @else
+                      <span class="text-[#002f61]">{{ $itemCat->name }}</span>
+                    @endcan
                   </li>
                 @endforeach
               </ul>

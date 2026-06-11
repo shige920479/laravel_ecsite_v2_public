@@ -20,10 +20,6 @@ return [
             'driver' => 'session',
             'provider' => 'owners',
         ],
-        'web_superuser' => [
-            'driver' => 'session',
-            'provider' => 'superuser',
-        ],
     ],
 
     'providers' => [
@@ -38,10 +34,6 @@ return [
         'owners' => [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\Owner::class),
-        ],
-        'superuser' => [
-            'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\SuperUser::class),
         ],
 
         // 'users' => [

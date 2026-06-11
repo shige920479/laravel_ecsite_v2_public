@@ -25,7 +25,7 @@ if (itemsRoot) {
   createRoot(itemsRoot).render(
   <>
     <Toaster
-      position="top-right" toastOptions={{duration: 3000, style: {background: "#333", color: "#fff",},}}
+      position="top-center" toastOptions={{duration: 3000, style: {background: "#333", color: "#fff",},}}
     />
     <ItemsPage itemIndexConfig={config} categories={categories}/>
   </>
@@ -46,7 +46,7 @@ if (itemShowRoot) {
   createRoot(itemShowRoot).render(
     <>
       <Toaster
-        position="top-right" toastOptions={{duration: 3000, style: {background: "#333", color: "#fff",},}}
+        position="top-center" toastOptions={{duration: 3000, style: {background: "#333", color: "#fff",},}}
       />
       <ItemShowPage 
         item={item}
@@ -69,7 +69,7 @@ if (cartRoot) {
   createRoot(cartRoot).render(
     <>
       <Toaster
-        position="top-right" toastOptions={{duration: 3000, style: {background: "#333", color: "#fff",},}}
+        position="top-center" toastOptions={{duration: 3000, style: {background: "#333", color: "#fff",},}}
       />
       <CartListPage cartErrors={cartErrors}/>
     </>
@@ -80,7 +80,7 @@ if (favoriteRoot) {
   createRoot(favoriteRoot).render(
     <>
     <Toaster
-      position="top-right" toastOptions={{duration: 3000, style: {background: "#333", color: "#fff",},}}
+      position="top-center" toastOptions={{duration: 3000, style: {background: "#333", color: "#fff",},}}
     />
       <FavoriteListPage/>
     </>
@@ -93,7 +93,7 @@ if (checkoutRoot) {
   createRoot(checkoutRoot).render(
     <>
     <Toaster
-      position="top-right" toastOptions={{duration: 3000, style: {background: "#333", color: "#fff",},}}
+      position="top-center" toastOptions={{duration: 3000, style: {background: "#333", color: "#fff",},}}
     />
       <CheckoutPage checkoutConfig={config}/>
     </>

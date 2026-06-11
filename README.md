@@ -1,10 +1,12 @@
 # 🛒 Laravel ECサイト（Portfolio Version）
 
 Laravel 12 を使用して構築した **生活雑貨 EC サイト** のポートフォリオ公開用リポジトリです。  
-認証、商品管理、在庫管理、カート、決済、画像アップロード、テストコードなどの最低限必要な基本機能を実装しています。  
+認証、認可、権限制御、商品管理、在庫管理、決済、画像配信最適化、API連携、テストコードなど、実務で利用されるLaravel機能を幅広く実装しています。  
   
 >追加実装①：2026/01 商品レビュー機能・ランキング機能（閲覧数/販売数/高評価）  
->追加実装②：2026/04 機能拡張および構成改善（React部分導入 / API連携 / S3 + CloudFront + WebP対応）
+>追加実装②：2026/04 機能拡張および構成改善（React部分導入 / API連携 / S3 + CloudFront + WebP対応）  
+>追加実装③：2026/06 認証・イベント・権限制御機能の拡張  
+  （Google OAuth認証 / Event・Listenerによるイベント駆動処理 / Spatie Permissionによるロール管理）
   
 
 公開URL &nbsp;&nbsp;: <a href="https://portfolio-sh0212.com/laravel_ecsitev2/" target="_blank">https://portfolio-sh0212.com/laravel_ecsitev2/</a> &nbsp;&nbsp;&nbsp; ( PC表示を前提として制作しています ) <br>
@@ -18,6 +20,7 @@ Laravel 12 を使用して構築した **生活雑貨 EC サイト** のポー�
 - ユーザー / オーナー / 管理者（複数ガード）
 - Fortify をベースにしたログイン
 - メール認証 (production では外しています)
+- Google OAuth認証（Laravel Socialite）
 - 各機能のご確認には以下をご利用ください（ユーザーは他99人分のダミーを登録）
 ---
   | ユーザー | メールアドレス | password | ログインURL |
@@ -55,12 +58,20 @@ Laravel 12 を使用して構築した **生活雑貨 EC サイト** のポー�
 
 ---
 
+### 🛠 管理者機能
+- 管理者アカウント管理（作成・編集・論理削除・復元）
+- Spatie Permission を利用したロール・権限管理
+- Gate を利用した管理画面アクセス制御
+
+---
+
 ### 💳 決済（Stripe）
 - Stripe Checkout の実装
 - Stripe Webhook による決済状態の反映（成功 / 期限切れ / 支払い失敗）
 - スナップショット（checkout_request / checkout_items）を用いた注文データの保持
 - Webhook イベントの DB 保存（ログ）
 - 「決済成功・キャンセル」画面
+- Event / Listener を利用した通知処理の分離
 
 ---
 
@@ -100,7 +111,8 @@ Laravel 12 を使用して構築した **生活雑貨 EC サイト** のポー�
 - **インフラ / ストレージ:** AWS S3 / CloudFront
 - **データベース:** MySQL
 - **フロントエンド:** Blade / React（部分導入） / Vite / Tailwind少し
-- **認証:** Laravel Fortify
+- **認証:** Laravel Fortify / Laravel Socialite
+- **認可:** Gate / Policy / Spatie Permission
 - **画像関連:** Intervention Image / SortableJS / Swiper
 - **決済:** Stripe sandbox（Checkout + Webhook）
 - **テスト:** PHPUnit
@@ -115,7 +127,6 @@ Laravel 12 を使用して構築した **生活雑貨 EC サイト** のポー�
 ### 1. 機能拡張（バックエンド）
 - ユーザー機能
   - 注文キャンセル処理（在庫・決済状態との整合性を考慮）
-  - OAuth認証（Googleログイン等）
   - 閲覧履歴 / 最近見た商品
 
 - オーナー機能

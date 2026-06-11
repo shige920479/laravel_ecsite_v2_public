@@ -11,6 +11,7 @@ use App\Models\Category;
 use App\Models\ItemCategory;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class CategoryController extends Controller
 {
@@ -23,10 +24,12 @@ class CategoryController extends Controller
 
     public function createCategory()
     {
+        Gate::authorize('category.create');
         return view('admin.category.create-category');
     }
     public function storeCategory(StoreCategoryRequest $request)
     {
+        Gate::authorize('category.create');
         $validated = $request->validated();
         $newCategory = Category::create($validated);
 
@@ -37,6 +40,7 @@ class CategoryController extends Controller
     }
     public function createSubCategory(Request $request)
     {
+        Gate::authorize('category.create');
         $categoryId = $request->input('category_id');
         $categories = Category::orderBy('id')->get();
 
@@ -48,6 +52,7 @@ class CategoryController extends Controller
 
     public function storeSubCategory(StoreSubCategoryRequest $request)
     {
+        Gate::authorize('category.create');
         $validated = $request->validated();
         $newSubCategory = SubCategory::create($validated);
 
@@ -60,6 +65,7 @@ class CategoryController extends Controller
 
     public function createItemCategory(Request $request)
     {
+        Gate::authorize('category.create');
         $subCategoryId = $request->input('sub_category_id');
         $categories = Category::with(['subCategories'])->orderBy('id')->get();
 
@@ -71,6 +77,7 @@ class CategoryController extends Controller
 
     public function storeItemCategory(StoreItemCategoryRequest $request)
     {
+        Gate::authorize('category.create');
         $validated = $request->validated();
         $newItemCategory = ItemCategory::create($validated);
 
@@ -82,11 +89,13 @@ class CategoryController extends Controller
     
     public function editItemCategory(ItemCategory $itemCategory)
     {
+        Gate::authorize('category.update');
         return view('admin.category.edit-item-category', ['itemCategory' => $itemCategory]);
     }
 
     public function updateItemCategory(UpdateItemCategoryRequest $request, ItemCategory $itemCategory)
     {
+        Gate::authorize('category.update');
         $itemCategory->fill($request->validated());
         if ($itemCategory->isClean()) {
             return back()->with([

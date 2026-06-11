@@ -7,6 +7,7 @@ use App\Http\Requests\StoreOwnerRequest;
 use App\Http\Requests\UpdateOwnerRequest;
 use App\Models\Owner;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 
 class OwnersController extends Controller
@@ -20,11 +21,13 @@ class OwnersController extends Controller
 
     public function create()
     {
+        Gate::authorize('owner.create');
         return view('admin.owners.create');
     }
 
     public function store(StoreOwnerRequest $request)
     {
+        Gate::authorize('owner.create');
         $validated = $request->validated();
         $validated['password'] = Hash::make($validated['password']);
         $owner = Owner::create($validated);
@@ -37,11 +40,13 @@ class OwnersController extends Controller
 
     public function edit(Owner $owner)
     {
+        Gate::authorize('owner.update');
         return view('admin.owners.edit', ['owner' => $owner]);
     }
 
     public function update(UpdateOwnerRequest $request, Owner $owner)
     {
+        Gate::authorize('owner.update');
         $owner->fill($request->validated());
         if ($owner->isClean()) {
             return back()->with([
@@ -59,6 +64,7 @@ class OwnersController extends Controller
 
     public function destroy(Owner $owner)
     {
+        Gate::authorize('owner.delete');
         $message = "id: {$owner->id} / 名前: {$owner->name} を削除しました";
         $owner->delete();
         return to_route('admin.owners.index')->with([

@@ -3,6 +3,9 @@
 namespace Tests\Feature\Services\Customer;
 
 use App\Enums\CheckoutStatus;
+use App\Events\OrderCompleted;
+use App\Events\OrderExpired;
+use App\Events\OrderFailed;
 use App\Models\Cart;
 use App\Models\CheckoutItem;
 use App\Models\CheckoutRequest;
@@ -15,6 +18,7 @@ use App\Services\Customer\Order\Notification\OrderNotificationServiceInterface;
 use App\Services\Customer\Order\WebhookService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Event as FacadesEvent;
 use Mockery;
 use PHPUnit\Framework\Attributes\Test;
 use Str;
@@ -28,6 +32,12 @@ class WebhookServiceTest extends TestCase
     const COMPLETED = 'checkout.session.completed';
     const EXPIRED = 'checkout.session.expired';
     const FAILED = 'payment_intent.payment_failed';
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        FacadesEvent::fake();
+    }
 
     #[Test]
     public function handle_決済成功時の処理を正しく実行できる(): void
@@ -56,7 +66,9 @@ class WebhookServiceTest extends TestCase
                 'event_id' => $event->id
             ])
             ;
+        FacadesEvent::assertDispatched(OrderCompleted::class);
     }
+
     #[Test]
     public function handle_checkoutRequestIdがEventオブジェクトになければ何もしない(): void
     {
@@ -145,10 +157,6 @@ class WebhookServiceTest extends TestCase
          [$user, $checkoutRequest, $checkoutItems, $itemA1, $itemA2, $itemB1] = $this->createCheckoutScenario();
         $event = $this->fakeEvent($checkoutRequest->id, self::EXPIRED);
 
-        $mock = Mockery::mock(OrderNotificationServiceInterface::class);
-        $mock->shouldReceive('notifyCheckoutExpired')->once();
-        $this->app->instance(OrderNotificationServiceInterface::class, $mock);
-
         $webhookService = app()->make(WebhookService::class);
         $webhookService->handle($event);
         
@@ -176,16 +184,14 @@ class WebhookServiceTest extends TestCase
             'id' => $checkoutRequest->id,
             'status' => CheckoutStatus::EXPIRED,
         ]);
+
+        FacadesEvent::assertDispatched(OrderExpired::class);
     }
     #[Test]
     public function handle_期限切れイベントが2回送られても2重登録を行わない(): void
     {
          [$user, $checkoutRequest, $checkoutItems, $itemA1, $itemA2, $itemB1] = $this->createCheckoutScenario();
         $event = $this->fakeEvent($checkoutRequest->id, self::EXPIRED);
-
-        $mock = Mockery::mock(OrderNotificationServiceInterface::class);
-        $mock->shouldReceive('notifyCheckoutExpired')->once();
-        $this->app->instance(OrderNotificationServiceInterface::class, $mock);
 
         $webhookService = app()->make(WebhookService::class);
         $webhookService->handle($event); // 1回目
@@ -208,6 +214,8 @@ class WebhookServiceTest extends TestCase
             'item_id' => $itemB1->id,
             'stock_diff' => 7
         ]);
+
+        FacadesEvent::assertDispatchedOnce(OrderExpired::class);
     }
 
     #[Test]
@@ -215,10 +223,6 @@ class WebhookServiceTest extends TestCase
     {
          [$user, $checkoutRequest, $checkoutItems, $itemA1, $itemA2, $itemB1] = $this->createCheckoutScenario();
         $event = $this->fakeEvent($checkoutRequest->id, self::FAILED);
-
-        $mock = Mockery::mock(OrderNotificationServiceInterface::class);
-        $mock->shouldReceive('notifyPaymentFailed')->once();
-        $this->app->instance(OrderNotificationServiceInterface::class, $mock);
 
         $webhookService = app()->make(WebhookService::class);
         $webhookService->handle($event);
@@ -247,6 +251,8 @@ class WebhookServiceTest extends TestCase
             'id' => $checkoutRequest->id,
             'status' => CheckoutStatus::FAILED,
         ]);
+
+        FacadesEvent::assertDispatched(OrderFailed::class);
     }
 
     private function createCheckoutScenario()

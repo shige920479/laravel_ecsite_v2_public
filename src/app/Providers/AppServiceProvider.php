@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Services\Admin\AdminService;
+use App\Services\Admin\AdminServiceInterface;
+use App\Services\Admin\ReviewService as AdminReviewService;
+use App\Services\Admin\ReviewServiceInterface as AdminReviewServiceInterface;
 use App\Services\Customer\Cart\CartService;
 use App\Services\Customer\Cart\CartServiceInterface;
 use App\Services\Customer\Favorite\FavoriteService;
@@ -75,6 +79,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(MyOrderServiceInterface::class, MyOrderService::class);
         $this->app->bind(RankingQueryServiceInterface::class, RankingQueryService::class);
         $this->app->bind(ReviewServiceInterface::class, ReviewService::class);
+        $this->app->bind(AdminReviewServiceInterface::class, AdminReviewService::class);
+        $this->app->bind(AdminServiceInterface::class, AdminService::class);
     }
 
     /**

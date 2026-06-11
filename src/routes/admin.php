@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\OwnersController;
+use App\Http\Controllers\Admin\ReviewController;
 use App\Http\Controllers\Auth\AdminAuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -34,6 +36,23 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/item-category', [CategoryController::class, 'storeItemCategory'])->name('itemCategory.store');
         Route::get('/item-category/{itemCategory}/edit', [CategoryController::class, 'editItemCategory'])->name('itemCategory.edit');
         Route::put('/item-category/{itemCategory}', [CategoryController::class, 'updateItemCategory'])->name('itemCategory.update');
+    
+        Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews');
+        Route::get('/reviews/{review}', [ReviewController::class, 'show'])->name('review.show');
+        Route::delete('/reviews/{review}', [ReviewController::class, 'destroy'])->name('review.destroy');
+
+        Route::get('/admins', [AdminController::class, 'index'])->name('admins.index');
+        Route::get('/admins/create', [AdminController::class, 'create'])->name('admins.create');
+        Route::post('/admins', [AdminController::class, 'store'])->name('admins.store');
+        Route::get('/admins/{admin}/edit', [AdminController::class, 'edit'])->name('admins.edit');
+        Route::patch('/admins/{admin}', [AdminController::class, 'update'])->name('admins.update');
+        Route::delete('/admins/{admin}', [AdminController::class, 'destroy'])->name('admins.destroy');
+        Route::get('/admins/trashed', [AdminController::class, 'trashed'])->name('admins.trashed');
+        Route::patch('/admins/{admin}/restore', [AdminController::class, 'restore'])->name('admins.restore');
     });
 
+});
+
+Route::get('/admin/test', function () {
+    return view('admin.super-admin.index');
 });

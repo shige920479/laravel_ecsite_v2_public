@@ -186,6 +186,19 @@ class Item extends Model
                 $q->whereDate('created_at', '>=', now()->subDays($period))
         ]);
     }
+    /** 管理画面用の商品名検索（複数をor条件：名前以外の要素も入ってくる為） */
+    public function scopeSearchByNameKeyword(Builder $query, string $searchWord): Builder
+    {
+        $wordList = Helper::trimSearchWord($searchWord);
+
+        $query->where(function ($query) use ($wordList) {
+            foreach ($wordList as $word) {
+                $query->orWhereLike('name', "%{$word}%");
+            }
+        });
+
+        return $query;
+    }
 
     /** relation */
     public function shop(): BelongsTo

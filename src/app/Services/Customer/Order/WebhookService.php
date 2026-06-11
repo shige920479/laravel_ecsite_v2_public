@@ -2,6 +2,9 @@
 namespace App\Services\Customer\Order;
 
 use App\Enums\CheckoutStatus;
+use App\Events\OrderCompleted;
+use App\Events\OrderExpired;
+use App\Events\OrderFailed;
 use App\Models\CheckoutItem;
 use App\Models\CheckoutRequest;
 use App\Models\WebhookEvent;
@@ -46,22 +49,21 @@ class WebhookService implements WebhookServiceInterface
             case 'checkout.session.completed':
                 $result = $this->handleCompleted($event);
                 if ($result !== null) {
-                    $this->orderNotificationService->notifyCustomer($result);
-                    $this->orderNotificationService->notifyOwners($result);
+                    event(new OrderCompleted($result));
                 }
                 break;
 
             case 'checkout.session.expired':
                 $result = $this->handleExpiredAndFailed($event, CheckoutStatus::EXPIRED);
                 if ($result !== null) {
-                    $this->orderNotificationService->notifyCheckoutExpired($result);
+                    event(new OrderExpired($result));
                 }
                 break;
 
             case 'payment_intent.payment_failed':
                 $result = $this->handleExpiredAndFailed($event, CheckoutStatus::FAILED);
                 if ($result !== null) {
-                    $this->orderNotificationService->notifyPaymentFailed($result);
+                    event(new OrderFailed($result));
                 }
                 break;
             
